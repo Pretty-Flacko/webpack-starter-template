@@ -3,18 +3,24 @@ import globals from "globals";
 import { defineConfig } from "eslint/config";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
 
-export default [
-	defineConfig([
-		{
-			files: ["**/*.{js,mjs,cjs}"],
-			plugins: { js },
-			extends: ["js/recommended"],
-			languageOptions: { globals: globals.browser },
+export default defineConfig([
+	{
+		files: ["**/*.{js,mjs,cjs}"],
+		plugins: { js },
+		extends: ["js/recommended"],
+		languageOptions: { globals: globals.browser },
+	},
+	{
+		files: ["*.config.js", "webpack.*.js"],
+		languageOptions: { sourceType: "commonjs", globals: globals.node },
+	},
+	{
+		files: ["tests/**/*.js"],
+		languageOptions: {
+			globals: {
+				...globals.jest,
+			},
 		},
-		{
-			files: ["webpack.*.js", "**/webpack.*.js"],
-			languageOptions: { sourceType: "commonjs", globals: globals.node },
-		},
-	]),
+	},
 	eslintConfigPrettier,
-];
+]);
